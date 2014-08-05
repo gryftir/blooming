@@ -22,6 +22,9 @@ typedef struct search_string {
 } SEARCH;
 
 
+//set locale
+char * init(void);
+
 //BLOOM
 
 BLOOM * new_bloom(int element_size_bits, long num_elements, char * encoding);
