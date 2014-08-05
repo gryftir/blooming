@@ -1,3 +1,6 @@
+#built objects
+bloom_example
+
 # Object files
 *.o
 *.ko
