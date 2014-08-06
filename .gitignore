@@ -1,5 +1,6 @@
 #built objects
 bloom_example
+*test
 
 # Object files
 *.o
