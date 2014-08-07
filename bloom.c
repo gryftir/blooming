@@ -5,38 +5,44 @@ char * init (void) {
 }
 
 	
-BLOOM * new_bloom(int element_size_bits, long num_elements, char * encoding){
+BLOOM * new_bloom(int element_size_bits, long num_elements, encoding encoding){
+	BLOOM * self = NULL;
 	
-	return;
+	return self;
 }
 
 int destroy_bloom(BLOOM * bloom_array){
+	int success = 0;
 	
-	return;
+	return success;
 }
 
 int found(BLOOM * bloom_array, SEARCH * string){
+	int success = 0;
 	
-	return;
+	return success;
 }
 
-SEARCH * new_search(void * string, char * encoding, int char_size){
+SEARCH * new_search(void * string, encoding encoding, int char_size){
+	SEARCH * self = NULL;
 	
-	return;
+	return self;
 }
 
-SEARCH * new_search_encoding(SEARCH * string, char * encoding){
+SEARCH * new_search_encoding(SEARCH * string, encoding encoding){
+	SEARCH * self = NULL;
 	
-	return;
+	return self;
 }
 
 SEARCH * copy_search(SEARCH * string){
+	SEARCH * self = NULL;
 	
-	return;
+	return self;
 }
 
 int destroy_search(SEARCH * string){
-	
-	return;
+	int success = 0;	
+	return success;
 }
 
