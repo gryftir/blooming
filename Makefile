@@ -13,7 +13,7 @@ $(TESTS): $(OBJECTS)
 
 .PHONY: test
 test: $(TESTS)
-	gtester $(TESTS)	
+	gtester --verbose $(TESTS)	
 
 
 

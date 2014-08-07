@@ -5,15 +5,23 @@ char * init (void) {
 }
 
 	
-BLOOM * new_bloom(int element_size_bits, long num_elements, encoding encoding){
+BLOOM * new_bloom(size_t element_size_bits, long num_elements, encoding encoding){
 	BLOOM * self = NULL;
-	
+	self = (BLOOM *)malloc(sizeof(BLOOM) );
+	if (!self){
+		return NULL;
+	}
+	self->encoding = encoding;
+	self->element_size_bits = element_size_bits;
+	self->num_elements = num_elements;
+	self->array = calloc(num_elements, element_size_bits);
 	return self;
 }
 
 int destroy_bloom(BLOOM * bloom_array){
 	int success = 0;
-	
+	free(bloom_array->array);
+	free(bloom_array);
 	return success;
 }
 

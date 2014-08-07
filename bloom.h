@@ -11,7 +11,7 @@ typedef enum {UTF8, UTF16, UNICODE} encoding;
 
 typedef struct bloom {
 	long num_elements;
-	int element_size_bits;
+	size_t element_size_bits;
 	void * array;
 	encoding encoding;
 } BLOOM;	
@@ -29,7 +29,7 @@ char * init(void);
 
 //BLOOM
 
-BLOOM * new_bloom(int element_size_bits, long num_elements, encoding encoding);
+BLOOM * new_bloom(size_t element_size_bits, long num_elements, encoding encoding);
 int destroy_bloom(BLOOM * bloom_array);
 
 
