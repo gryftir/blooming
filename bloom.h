@@ -6,16 +6,13 @@
 #include <locale.h> 
 #include <glib.h>
 #include <glib/gprintf.h>
-#include "xxHash/xxhash.h"
 #include <inttypes.h>
+#include "xxHash/xxhash.h"
 
 //constants for hashing to element
 #define HASHVAL1 1
 #define HASHVAL2 2
 
-//constants for hashing to bit
-#define BITVAL1 11
-#define BITVAL2 22
 
 typedef enum {UTF8, UTF16, UNICODE} encoding;
 
@@ -28,8 +25,8 @@ typedef struct bloom {
 
 typedef struct search_string {
 	void * string;
-	uint32_t byte_length;
-	int char_size;	
+	uint32_t length_in_bytes;
+	int num_chars;	
 	encoding encoding;
 } STRING_STRUCT;
 
@@ -46,15 +43,15 @@ int destroy_bloom(BLOOM * bloom_array);
 int found(BLOOM * bloom_array, STRING_STRUCT * string);
 
 int add_to_bloom(BLOOM * bloom_array, char * string); //assumes utf-8 encoding for now
-int set_bloom_element(void * element, size_t bit_size, STRING_STRUCT * string);
+int set_bloom_element(BLOOM * b,  STRING_STRUCT * string);
 //STRING_STRUCT
 
-STRING_STRUCT * new_string_struct(void * string, encoding encoding, int char_size);
+STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int num_chars, unsigned int length_in_bytes);
 
 //produces new copy of string_struct (possibly with changes
 
 STRING_STRUCT * new_string_struct_encoding(STRING_STRUCT * string, encoding  encoding);
-STRING_STRUCT * new_string_struct_size(STRING_STRUCT * string, int char_size);
+STRING_STRUCT * new_string_struct_size(STRING_STRUCT * string, int length_in_bytes);
 STRING_STRUCT * copy_string_struct(STRING_STRUCT * string); 
 
 int destroy_string_struct(STRING_STRUCT * string);
