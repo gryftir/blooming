@@ -60,21 +60,21 @@ void test_bloom(bloom_struct * bloom, gconstpointer ignored) {
 
 //test check_bit get_set_bit set_bit
 void test_bit(bloom_struct * b, gconstpointer ignored) {
-	unsigned long l = 2;
-	unsigned long ltemp = 0;
+	uint32_t l = 2;
+	uint32_t ltemp = 0;
 	g_test_message("check_bit ");
-	g_assert( ((unsigned long *)(b->bloom->array))[1]  == ltemp );
-	g_assert_cmpint( ((unsigned long *)(b->bloom->array))[1],  ==, ltemp );
-	g_assert_cmpint(check_bit(	((unsigned long *)(b->bloom->array))[1], 1), == , 0);
+	g_assert( ((uint32_t *)(b->bloom->array))[1]  == ltemp );
+	g_assert_cmpint( ((uint32_t *)(b->bloom->array))[1],  ==, ltemp );
+	g_assert_cmpint(check_bit(	((uint32_t *)(b->bloom->array))[1], 1), == , 0);
 
 	g_test_message("get_set_bit ");
-	ltemp = get_set_bit( ((unsigned long *)(b->bloom->array))[1] , l);
+	ltemp = get_set_bit( ((uint32_t *)(b->bloom->array))[1] , l);
 	g_assert_cmpint(ltemp, ==, 4);
 
 	g_test_message("set_bit ");
-	set_bit( ( ((unsigned long *)(b->bloom->array))[1]) , l);
-	g_assert_cmpint( check_bit ( ((unsigned long *)(b->bloom->array))[1], l), ==, 4);
-	g_assert( ((unsigned long *)(b->bloom->array))[1]  == ltemp );
+	set_bit( ( ((uint32_t *)(b->bloom->array))[1]) , l);
+	g_assert_cmpint( check_bit ( ((uint32_t *)(b->bloom->array))[1], l), ==, 4);
+	g_assert( ((uint32_t *)(b->bloom->array))[1]  == ltemp );
 	return;
 }
 

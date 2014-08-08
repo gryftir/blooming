@@ -6,6 +6,8 @@
 #include <locale.h> 
 #include <glib.h>
 #include <glib/gprintf.h>
+#include "xxHash/xxhash.h"
+#include <inttypes.h>
 
 //constants for hashing to element
 #define HASHVAL1 1
@@ -18,7 +20,7 @@
 typedef enum {UTF8, UTF16, UNICODE} encoding;
 
 typedef struct bloom {
-	long num_elements;
+	uint32_t num_elements;
 	size_t element_size_bits;
 	void * array;
 	encoding encoding;
@@ -26,7 +28,7 @@ typedef struct bloom {
 
 typedef struct search_string {
 	void * string;
-	long byte_length;
+	uint32_t byte_length;
 	int char_size;	
 	encoding encoding;
 } STRING_STRUCT;
@@ -37,7 +39,7 @@ char * init(void);
 
 //BLOOM
 
-BLOOM * new_bloom(size_t element_size_bits, long num_elements, encoding encoding);
+BLOOM * new_bloom(size_t element_size_bits, uint32_t num_elements, encoding encoding);
 int destroy_bloom(BLOOM * bloom_array);
 
 
@@ -58,9 +60,9 @@ STRING_STRUCT * copy_string_struct(STRING_STRUCT * string);
 int destroy_string_struct(STRING_STRUCT * string);
 
 //bit macros
-#define  check_bit(value, bit) ((unsigned long)(value)) & (1UL << (bit)) 
-#define  get_set_bit(value, bit)   ((unsigned long)(value)) | (1UL << (bit))
-#define  set_bit (value, bit)  (value) = get_set_bit((value), (bit)) 
+#define  check_bit(value, bit) ((uint32_t)(value)) & ( ((uint32_t)1) << (bit)) 
+#define  get_set_bit(value, bit)   ((uint32_t)(value)) |( ((uint32_t)1) << (bit))  
+#define  set_bit(value, bit)  (value) = get_set_bit((value), (bit)) 
 
 
 /*

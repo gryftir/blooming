@@ -5,7 +5,7 @@ char * init (void) {
 }
 
 	
-BLOOM * new_bloom(size_t element_size_bits, long num_elements, encoding encoding){
+BLOOM * new_bloom(size_t element_size_bits, uint32_t num_elements, encoding encoding){
 	BLOOM * self = NULL;
 	self = (BLOOM *)malloc(sizeof(BLOOM) );
 	if (!self){
@@ -41,8 +41,19 @@ int add_to_bloom(BLOOM * bloom_array, char * string){ //assumes utf-8 encoding f
 }
 
 int set_bloom_element(void * element, size_t bit_size, STRING_STRUCT * string){
-	int self = 0;
-	return self;
+	int return_val = 1;
+	switch (bit_size) {
+	case 32:
+		break;
+	case 16:
+		break;
+	case 8:
+		break;
+	default:
+		return_val = 0;
+		break;
+	}
+	return return_val;
 }
 
 STRING_STRUCT * new_string_struct_encoding(STRING_STRUCT * string, encoding encoding){
