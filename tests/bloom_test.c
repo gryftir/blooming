@@ -48,6 +48,7 @@ void test_init (bloom_struct * loc, gconstpointer ignored) {
 	g_assert_cmpstr(current, ==, "en_US.UTF-8");
 	return;
 }
+//test object created successfully
 
 //test bloom
 void test_bloom(bloom_struct * bloom, gconstpointer ignored) {
@@ -57,12 +58,31 @@ void test_bloom(bloom_struct * bloom, gconstpointer ignored) {
 	return;
 }
 
-//test object created successfully
+//test check_bit get_set_bit set_bit
+void test_bit(bloom_struct * b, gconstpointer ignored) {
+	unsigned long l = 2;
+	unsigned long ltemp = 0;
+	g_test_message("check_bit ");
+	g_assert( ((unsigned long *)(b->bloom->array))[1]  == ltemp );
+	g_assert_cmpint( ((unsigned long *)(b->bloom->array))[1],  ==, ltemp );
+	g_assert_cmpint(check_bit(	((unsigned long *)(b->bloom->array))[1], 1), == , 0);
+
+	g_test_message("get_set_bit ");
+	ltemp = get_set_bit( ((unsigned long *)(b->bloom->array))[1] , l);
+	g_assert_cmpint(ltemp, ==, 4);
+
+	g_test_message("set_bit ");
+	set_bit( ( ((unsigned long *)(b->bloom->array))[1]) , l);
+	g_assert_cmpint( check_bit ( ((unsigned long *)(b->bloom->array))[1], l), ==, 4);
+	g_assert( ((unsigned long *)(b->bloom->array))[1]  == ltemp );
+	return;
+}
 
 int main(int argc, char *argv[])
 {
 	g_test_init(&argc, &argv, NULL);
 	g_test_add("/set1/init test", bloom_struct, NULL, setup_init, test_init, teardown_init);
 	g_test_add("/set/bloom test", bloom_struct, NULL, setup_bloom, test_bloom, teardown_bloom);
+	g_test_add("/set/bit test", bloom_struct, NULL, setup_bloom, test_bit, teardown_bloom);
 	return g_test_run();
 }

@@ -60,7 +60,7 @@ int destroy_search(STRING_STRUCT * string);
 //bit macros
 #define  check_bit(value, bit) ((unsigned long)(value)) & (1UL << (bit)) 
 #define  get_set_bit(value, bit)   ((unsigned long)(value)) | (1UL << (bit))
-#define  set_bit (value, bit)  (value) = get_set_bit((value), (bit)) 
+#define  set_bit(value, bit)  (value) = get_set_bit((value), (bit)) 
 
 
 /*
