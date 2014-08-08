@@ -25,31 +25,30 @@ int destroy_bloom(BLOOM * bloom_array){
 	return success;
 }
 
-int found(BLOOM * bloom_array, SEARCH * string){
+int found(BLOOM * bloom_array, STRING_STRUCT * string){
 	int success = 0;
-	
 	return success;
 }
 
-SEARCH * new_search(void * string, encoding encoding, int char_size){
-	SEARCH * self = NULL;
+STRING_STRUCT * new_search(void * string, encoding encoding, int char_size){
+	STRING_STRUCT * self = NULL;
 	
 	return self;
 }
 
-SEARCH * new_search_encoding(SEARCH * string, encoding encoding){
-	SEARCH * self = NULL;
+STRING_STRUCT * new_search_encoding(STRING_STRUCT * string, encoding encoding){
+	STRING_STRUCT * self = NULL;
 	
 	return self;
 }
 
-SEARCH * copy_search(SEARCH * string){
-	SEARCH * self = NULL;
+STRING_STRUCT * copy_search(STRING_STRUCT * string){
+	STRING_STRUCT * self = NULL;
 	
 	return self;
 }
 
-int destroy_search(SEARCH * string){
+int destroy_search(STRING_STRUCT * string){
 	int success = 0;	
 	return success;
 }

@@ -5,11 +5,11 @@
 typedef struct {
 	BLOOM * bloom;
 	char * locale;
-}bloom_struct;
+} bloom_struct;
 
 typedef struct {
-	SEARCH * search;
-}search_struct;
+	STRING_STRUCT * search;
+} search_struct;
 
 //setup
 void setup_init(bloom_struct * loc, gconstpointer test_data) {
