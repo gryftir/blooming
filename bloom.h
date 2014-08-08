@@ -25,7 +25,7 @@ typedef struct bloom {
 } BLOOM;	
 
 typedef struct search_string {
-	void * searchstring;
+	void * string;
 	long byte_length;
 	int char_size;	
 	encoding encoding;
@@ -47,20 +47,20 @@ int add_to_bloom(BLOOM * bloom_array, char * string); //assumes utf-8 encoding f
 int set_bloom_element(void * element, size_t bit_size, STRING_STRUCT * string);
 //STRING_STRUCT
 
-STRING_STRUCT * new_search(void * string, encoding encoding, int char_size);
+STRING_STRUCT * new_string_struct(void * string, encoding encoding, int char_size);
 
-//produces new copy of search (possibly with changes
+//produces new copy of string_struct (possibly with changes
 
-STRING_STRUCT * new_search_encoding(STRING_STRUCT * string, encoding  encoding);
-STRING_STRUCT * new_search_size(STRING_STRUCT * string, int char_size);
-STRING_STRUCT * copy_search(STRING_STRUCT * string); 
+STRING_STRUCT * new_string_struct_encoding(STRING_STRUCT * string, encoding  encoding);
+STRING_STRUCT * new_string_struct_size(STRING_STRUCT * string, int char_size);
+STRING_STRUCT * copy_string_struct(STRING_STRUCT * string); 
 
-int destroy_search(STRING_STRUCT * string);
+int destroy_string_struct(STRING_STRUCT * string);
 
 //bit macros
 #define  check_bit(value, bit) ((unsigned long)(value)) & (1UL << (bit)) 
 #define  get_set_bit(value, bit)   ((unsigned long)(value)) | (1UL << (bit))
-#define  set_bit(value, bit)  (value) = get_set_bit((value), (bit)) 
+#define  set_bit (value, bit)  (value) = get_set_bit((value), (bit)) 
 
 
 /*

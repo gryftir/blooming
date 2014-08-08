@@ -30,26 +30,37 @@ int found(BLOOM * bloom_array, STRING_STRUCT * string){
 	return success;
 }
 
-STRING_STRUCT * new_search(void * string, encoding encoding, int char_size){
+STRING_STRUCT * new_string_struct(void * string, encoding encoding, int char_size){
+	STRING_STRUCT * self = NULL;
+			
+	return self;
+}
+int add_to_bloom(BLOOM * bloom_array, char * string){ //assumes utf-8 encoding for now
+	int self = 0;
+	return self;
+}
+
+int set_bloom_element(void * element, size_t bit_size, STRING_STRUCT * string){
+	int self = 0;
+	return self;
+}
+
+STRING_STRUCT * new_string_struct_encoding(STRING_STRUCT * string, encoding encoding){
 	STRING_STRUCT * self = NULL;
 	
 	return self;
 }
 
-STRING_STRUCT * new_search_encoding(STRING_STRUCT * string, encoding encoding){
+STRING_STRUCT * copy_string_struct(STRING_STRUCT * string){
 	STRING_STRUCT * self = NULL;
 	
 	return self;
 }
 
-STRING_STRUCT * copy_search(STRING_STRUCT * string){
-	STRING_STRUCT * self = NULL;
-	
-	return self;
-}
-
-int destroy_search(STRING_STRUCT * string){
+int destroy_string_struct(STRING_STRUCT * string){
 	int success = 0;	
+	free(string->string);
+	free(string);	
 	return success;
 }
 
