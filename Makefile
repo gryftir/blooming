@@ -16,6 +16,8 @@ $(TESTS): $(OBJECTS)
 .PHONY: test
 test: $(TESTS)
 	gtester --verbose $(TESTS)	
+	echo ' '
+	valgrind $(TESTS)
 
 
 
