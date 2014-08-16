@@ -25,8 +25,28 @@ int destroy_bloom(BLOOM * bloom_array){
 	return success;
 }
 
-int found(BLOOM * bloom_array, STRING_STRUCT * string){
+int found(BLOOM * b, STRING_STRUCT * string){
 	int success = 0;
+	uint32_t hashval1 = XXH32(string->string,string->num_chars * string->length_in_bytes, HASHVAL1);	
+	uint32_t hashval2 = XXH32(string->string,string->num_chars * string->length_in_bytes, HASHVAL2);	
+	//TODO: a more clever way to do this
+	switch (b->element_size_bits) {
+		case 32:
+			success =  check_bit( ( (uint32_t *)(b->array))[hashval1 % b->num_elements ], hashval2 %  b->element_size_bits ) && 
+					check_bit( ( (uint32_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits);
+		break;
+	case 16:
+		success =  check_bit( ( (uint32_t *)(b->array))[hashval1 % b->num_elements ], hashval2 %  b->element_size_bits ) && 
+				check_bit( ( (uint32_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits);
+		break;
+	case 8:
+		success =  check_bit( ( (uint8_t *)(b->array))[hashval1 % b->num_elements ], hashval2 %  b->element_size_bits ) && 
+				check_bit( ( (uint8_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits);
+		break;
+	default:
+		success = 0;
+		break;
+	}
 	return success;
 }
 
