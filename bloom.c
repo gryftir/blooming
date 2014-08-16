@@ -14,7 +14,7 @@ BLOOM * new_bloom(size_t element_size_bits, uint32_t num_elements, encoding enco
   self->encoding = encoding;
 	self->element_size_bits = element_size_bits;
 	self->num_elements = num_elements;
-	self->array = calloc(num_elements, element_size_bits);
+	self->array = calloc(num_elements, element_size_bits/8);
 	return self;
 }
 
@@ -49,14 +49,16 @@ STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int
 int add_to_bloom(BLOOM * bloom_array, char * string){ //assumes utf-8 encoding for now
 	int return_val = 0;
 	//strlen because assuming utf-8 coding, change when we change
-	int length = strlen(string);
-	STRING_STRUCT * string_container = new_string_struct(string, UTF8, length, 1);
+	int length_in_bytes = strlen(string);
+	STRING_STRUCT * string_container = new_string_struct(string, UTF8, length_in_bytes, 1);
 	if ( set_bloom_element(bloom_array->array, string_container) ){
 		return_val = 1;
 	}
 	destroy_string_struct(string_container);	
 	return return_val;
 }
+
+
 
 int set_bloom_element(BLOOM * b, STRING_STRUCT * string){
 	int return_val = 1;
@@ -81,6 +83,8 @@ int set_bloom_element(BLOOM * b, STRING_STRUCT * string){
 	}
 	return return_val;
 }
+
+//TODO
 
 STRING_STRUCT * new_string_struct_encoding(STRING_STRUCT * string, encoding encoding){
 	STRING_STRUCT * self = NULL;
