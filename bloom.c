@@ -30,17 +30,17 @@ int found(BLOOM * bloom_array, STRING_STRUCT * string){
 	return success;
 }
 
-STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int num_chars, unsigned int length_in_bytes){
+STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int num_chars, unsigned int element_length_in_bytes){
 	STRING_STRUCT * self = NULL;
 	//needs to be some size
-	if ( !(num_chars && length_in_bytes ) ){
+	if ( !(num_chars && element_length_in_bytes ) ){
 		return NULL;
 	}
 	self = (STRING_STRUCT *) malloc(sizeof(STRING_STRUCT) );			
-	self->string = calloc(num_chars, length_in_bytes);
-	self->length_in_bytes = length_in_bytes;
+	self->string = calloc(num_chars, element_length_in_bytes);
+	self->length_in_bytes = element_length_in_bytes;
 	self->num_chars = num_chars;
-	memcpy (self->string, string, (num_chars + 1) * length_in_bytes);
+	memcpy (self->string, string, (num_chars + 1) * element_length_in_bytes);
 	self->num_chars = num_chars;
 	self->encoding = encoding;
 	return self;
@@ -51,7 +51,7 @@ int add_to_bloom(BLOOM * bloom_array, char * string){ //assumes utf-8 encoding f
 	//strlen because assuming utf-8 coding, change when we change
 	int length_in_bytes = strlen(string);
 	STRING_STRUCT * string_container = new_string_struct(string, UTF8, length_in_bytes, 1);
-	if ( set_bloom_element(bloom_array->array, string_container) ){
+	if ( set_bloom_element(bloom_array, string_container) ){
 		return_val = 1;
 	}
 	destroy_string_struct(string_container);	
@@ -66,16 +66,16 @@ int set_bloom_element(BLOOM * b, STRING_STRUCT * string){
 	uint32_t hashval2 = XXH32(string->string,string->num_chars * string->length_in_bytes, HASHVAL2);	
 	switch (b->element_size_bits) {
 		case 32:
-			set_bit( ( (uint32_t *)(b->array))[hashval1 % b->num_elements ], hashval2 % b->element_size_bits );
-			set_bit( ( (uint32_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits );
+			set_bit( ( (uint32_t *)(b->array))[hashval1 % (uint32_t) (b->num_elements) ], hashval2 % (uint32_t) ( b->element_size_bits ));
+			set_bit( ( (uint32_t *)(b->array))[hashval2 % (uint32_t) (b->num_elements) ], hashval1 % (uint32_t) ( b->element_size_bits ));
 		break;
 	case 16:
-		set_bit( ( (uint16_t *)(b->array))[hashval1 % b->num_elements ], hashval2 % b->element_size_bits );
-		set_bit( ( (uint16_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits );
+		set_bit( ( (uint16_t *)(b->array))[hashval1 % (uint16_t) (b->num_elements) ], hashval2 % (uint16_t) ( b->element_size_bits ));
+		set_bit( ( (uint16_t *)(b->array))[hashval2 % (uint16_t) (b->num_elements) ], hashval1 % (uint16_t) ( b->element_size_bits ));
 		break;
 	case 8:
-		set_bit( ( (uint8_t *)(b->array))[hashval1 % b->num_elements ], hashval2 % b->element_size_bits );
-		set_bit( ( (uint8_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits );
+		set_bit( ( (uint8_t *)(b->array))[hashval1 % (uint8_t) (b->num_elements) ], hashval2 % (uint8_t) ( b->element_size_bits ));
+		set_bit( ( (uint8_t *)(b->array))[hashval2 % (uint8_t) (b->num_elements) ], hashval1 % (uint8_t) ( b->element_size_bits ));
 		break;
 	default:
 		return_val = 0;

@@ -18,7 +18,7 @@ typedef enum {UTF8, UTF16, UNICODE} encoding;
 
 typedef struct bloom {
 	uint32_t num_elements;
-	size_t element_size_bits;
+	unsigned int element_size_bits;
 	void * array;
 	encoding encoding;
 } BLOOM;	
@@ -46,7 +46,7 @@ int add_to_bloom(BLOOM * bloom_array, char * string); //assumes utf-8 encoding f
 int set_bloom_element(BLOOM * b,  STRING_STRUCT * string);
 //STRING_STRUCT
 
-STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int num_chars, unsigned int length_in_bytes);
+STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int num_chars, unsigned int element_length_in_bytes);
 
 //produces new copy of string_struct (possibly with changes
 
