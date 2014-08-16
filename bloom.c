@@ -41,7 +41,7 @@ int found(BLOOM * b, STRING_STRUCT * string){
 		break;
 	case 8:
 		success =  check_bit( ( (uint8_t *)(b->array))[hashval1 % b->num_elements ], hashval2 %  b->element_size_bits ) && 
-				check_bit( ( (uint8_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits);
+				check_bit( ( (uint32_t *)(b->array))[hashval2 % b->num_elements ], hashval1 % b->element_size_bits);
 		break;
 	default:
 		success = 0;
@@ -57,7 +57,7 @@ STRING_STRUCT * new_string_struct(void * string, encoding encoding, unsigned int
 		return NULL;
 	}
 	self = (STRING_STRUCT *) malloc(sizeof(STRING_STRUCT) );			
-	self->string = calloc(num_chars, element_length_in_bytes);
+	self->string = calloc(num_chars + 1, element_length_in_bytes);
 	self->length_in_bytes = element_length_in_bytes;
 	self->num_chars = num_chars;
 	memcpy (self->string, string, (num_chars + 1) * element_length_in_bytes);
