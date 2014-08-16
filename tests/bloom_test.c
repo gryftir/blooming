@@ -13,8 +13,7 @@ typedef struct {
 
 //setup
 void setup_init(bloom_struct * loc, gconstpointer test_data) {
-	char * temp = setlocale(LC_ALL, NULL);
-	loc->locale = strdup(temp);
+	loc->locale = strdup(setlocale(LC_ALL, NULL));
 	return;
 }
 
@@ -83,7 +82,7 @@ void test_new_string(bloom_struct * b, gconstpointer ignored) {
 	STRING_STRUCT * holder = new_string_struct((void*)teststring, UTF8, strlen(teststring), sizeof(char));
 	g_assert(holder);
 	g_assert_cmpstr((char *)(holder->string), ==, teststring);
-	g_assert_cmpint(holder->num_chars, ==, strlen(teststring));
+	g_assert(holder->num_chars == strlen(teststring));
 	g_assert(holder->encoding == UTF8);
 	g_assert(holder->length_in_bytes == sizeof(*teststring));
 	destroy_string_struct(holder);
