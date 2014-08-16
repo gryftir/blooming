@@ -7,10 +7,10 @@ char * init (void) {
 	
 BLOOM * new_bloom(size_t element_size_bits, uint32_t num_elements, encoding encoding){
 	BLOOM * self = NULL;
-	self = (BLOOM *)malloc(sizeof(BLOOM) );
 	if ( !(num_elements && element_size_bits ) ){
 		return NULL;
 	}
+	self = (BLOOM *)malloc(sizeof(BLOOM) );
   self->encoding = encoding;
 	self->element_size_bits = element_size_bits;
 	self->num_elements = num_elements;
