@@ -79,7 +79,6 @@ int add_to_bloom(BLOOM * bloom_array, char * string){ //assumes utf-8 encoding f
 }
 
 
-
 int set_bloom_element(BLOOM * b, STRING_STRUCT * string){
 	int return_val = 1;
 	uint32_t hashval1 = XXH32(string->string,string->num_chars * string->length_in_bytes, HASHVAL1);	

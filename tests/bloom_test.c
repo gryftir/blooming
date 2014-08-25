@@ -4,6 +4,7 @@
 
 typedef struct {
 	BLOOM * bloom;
+	BLOOM * bloom8;
 	char * locale;
 } bloom_struct;
 
@@ -21,6 +22,7 @@ void setup_init(bloom_struct * loc, gconstpointer test_data) {
 void setup_bloom(bloom_struct * bloom, gconstpointer test_data) {
 	setup_init(bloom, NULL);	
 	bloom->bloom = new_bloom(32, 12, UTF8);
+	bloom->bloom8 = new_bloom(8, 12, UTF8);
 	return;
 }
 
@@ -36,6 +38,7 @@ void teardown_init(bloom_struct * loc, gconstpointer test_data) {
 void teardown_bloom(bloom_struct * bloom, gconstpointer test_data) {
 	teardown_init(bloom, NULL);
 	destroy_bloom(bloom->bloom);
+	destroy_bloom(bloom->bloom8);
 	return;
 }
 
@@ -54,6 +57,10 @@ void test_bloom(bloom_struct * bloom, gconstpointer ignored) {
 	g_assert_cmpint(bloom->bloom->element_size_bits, ==,  32);
 	g_assert_cmpint( bloom->bloom->num_elements,==, 12);	
 	g_assert(bloom->bloom->encoding == UTF8);
+
+	g_assert_cmpint(bloom->bloom8->element_size_bits, ==,  8);
+	g_assert_cmpint( bloom->bloom8->num_elements,==, 12);	
+	g_assert(bloom->bloom8->encoding == UTF8);
 	return;
 }
 
@@ -61,19 +68,33 @@ void test_bloom(bloom_struct * bloom, gconstpointer ignored) {
 void test_bit(bloom_struct * b, gconstpointer ignored) {
 	uint32_t l = 2;
 	uint32_t ltemp = 0;
+	uint8_t l8 = 2;
+	uint8_t ltemp8 = 0;
 	g_test_message("check_bit ");
+		
 	g_assert( ((uint32_t *)(b->bloom->array))[1]  == ltemp );
 	g_assert_cmpint( ((uint32_t *)(b->bloom->array))[1],  ==, ltemp );
 	g_assert_cmpint(check_bit(	((uint32_t *)(b->bloom->array))[1], 1), == , 0);
+
+	g_assert( ((uint8_t *)(b->bloom8->array))[1]  == ltemp8 );
+	g_assert_cmpint( ((uint8_t *)(b->bloom8->array))[1],  ==, ltemp8 );
+	g_assert_cmpint(check_bit(	((uint8_t *)(b->bloom8->array))[1], 1), == , 0);
 
 	g_test_message("get_set_bit ");
 	ltemp = get_set_bit( ((uint32_t *)(b->bloom->array))[1] , l);
 	g_assert_cmpint(ltemp, ==, 4);
 
+	ltemp8 = get_set_bit( ((uint8_t *)(b->bloom8->array))[1] , l8);
+	g_assert_cmpint(ltemp8, ==, 4);
+
 	g_test_message("set_bit ");
 	set_bit( ( ((uint32_t *)(b->bloom->array))[1]) , l);
 	g_assert_cmpint( check_bit ( ((uint32_t *)(b->bloom->array))[1], l), ==, 4);
 	g_assert( ((uint32_t *)(b->bloom->array))[1]  == ltemp );
+
+	set_bit( ( ((uint8_t *)(b->bloom8->array))[1]) , l8);
+	g_assert_cmpint( check_bit ( ((uint8_t *)(b->bloom8->array))[1], l8), ==, 4);
+	g_assert( ((uint8_t *)(b->bloom8->array))[1]  == ltemp8 );
 	return;
 }
 
@@ -96,9 +117,18 @@ void test_add_to_bloom(bloom_struct * b, gconstpointer ignored) {
 	setup_bloom(&compare, NULL);	
 	g_assert( 0 ==  memcmp(b->bloom->array, compare.bloom->array, 
 				(b->bloom->element_size_bits / 8) * b->bloom->num_elements) );
+
+	g_assert( 0 ==  memcmp(b->bloom8->array, compare.bloom8->array, 
+				(b->bloom8->element_size_bits / 8) * b->bloom8->num_elements) );
+
 	add_to_bloom(b->bloom, teststring);		
 	g_assert(0 !=  memcmp(b->bloom->array, compare.bloom->array, 
 				(b->bloom->element_size_bits / 8) * b->bloom->num_elements) );
+
+
+	add_to_bloom(b->bloom8, teststring);		
+	g_assert(0 !=  memcmp(b->bloom8->array, compare.bloom8->array, 
+				(b->bloom8->element_size_bits / 8) * b->bloom8->num_elements) );
 	teardown_bloom(&compare, NULL);	
 	return;
 }
