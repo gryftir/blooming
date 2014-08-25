@@ -22,7 +22,10 @@ void setup_init(bloom_struct * loc, gconstpointer test_data) {
 void setup_bloom(bloom_struct * bloom, gconstpointer test_data) {
 	setup_init(bloom, NULL);	
 	bloom->bloom = new_bloom(32, 12, UTF8);
+<<<<<<< HEAD
 	bloom->bloom8 = new_bloom(8, 12, UTF8);
+=======
+>>>>>>> 7544b7881c0abfefec843ff018d8dc232c7872c3
 	return;
 }
 
@@ -117,6 +120,7 @@ void test_add_to_bloom(bloom_struct * b, gconstpointer ignored) {
 	setup_bloom(&compare, NULL);	
 	g_assert( 0 ==  memcmp(b->bloom->array, compare.bloom->array, 
 				(b->bloom->element_size_bits / 8) * b->bloom->num_elements) );
+<<<<<<< HEAD
 
 	g_assert( 0 ==  memcmp(b->bloom8->array, compare.bloom8->array, 
 				(b->bloom8->element_size_bits / 8) * b->bloom8->num_elements) );
@@ -129,6 +133,11 @@ void test_add_to_bloom(bloom_struct * b, gconstpointer ignored) {
 	add_to_bloom(b->bloom8, teststring);		
 	g_assert(0 !=  memcmp(b->bloom8->array, compare.bloom8->array, 
 				(b->bloom8->element_size_bits / 8) * b->bloom8->num_elements) );
+=======
+	add_to_bloom(b->bloom, teststring);		
+	g_assert(0 !=  memcmp(b->bloom->array, compare.bloom->array, 
+				(b->bloom->element_size_bits / 8) * b->bloom->num_elements) );
+>>>>>>> 7544b7881c0abfefec843ff018d8dc232c7872c3
 	teardown_bloom(&compare, NULL);	
 	return;
 }
